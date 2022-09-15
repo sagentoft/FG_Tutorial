@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,6 +8,7 @@ public class CharacterController : MonoBehaviour
 {
     [SerializeField] private float speed = 2f;
     [SerializeField] private Rigidbody charBody;
+    private bool hasJumped = false;
     
     // Update is called once per frame
     void Update()
@@ -28,7 +30,17 @@ public class CharacterController : MonoBehaviour
 
     private void Jump()
     {
-       charBody.AddForce(Vector3.up * 500f); 
+        if (!hasJumped)
+        { 
+            charBody.AddForce(Vector3.up * 500f);
+            hasJumped = true;
+        }
+       
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        hasJumped = false;
     }
 
     private void ToggleVisibility()
